@@ -1,0 +1,12 @@
+__loadDisplayList__75b518c0([
+  {
+    "group": "common",
+    "name": "Comprasnet",
+    "desc": "Leiloes eletronicos de compra de cafe realizados no Comprasnet entre 01/03/2011 e 31/12/2017",
+    "n": 4239,
+    "height": 500,
+    "width": 500,
+    "updated": "2020-02-02 19:45:10.586",
+    "keySig": "d63210038d0079f4faa5188b9bb01c90"
+  }
+])
