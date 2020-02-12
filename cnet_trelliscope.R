@@ -4,13 +4,11 @@ library(tidyverse)
 library(trelliscopejs)
 
 # Importando dados ------------------------------------------------------------
-df_bid_inc <- readRDS('data/cnet_bid_increments.rds')
-
-df_lances_completo <- readRDS('data/cnet_lances.rds') %>% 
+df_lances_completo <- readRDS('cnet_lances.rds') %>% 
   filter(data_hora < lubridate::ymd('2016-01-01')) %>%
   select(-regime_juridico_20s, -regime_juridico_3s)
 
-df_atas <- readRDS('data/cnet_cafe.rds') %>%
+df_atas <- readRDS('cnet_cafe.rds') %>%
   select(id_item, abertura_lances, inicio_fase_aleatoria, situacao, 
          tratamento_diferenciado, decreto_7174, margem_preferencia,
          melhor_lance, valor_negociado, kg_fornecidos, kg_por_unid,
@@ -80,10 +78,18 @@ df_plot_data <- df_plot_data %>%
                  mutate(Fornecedor = fct_reorder(CNPJ_CPF, ranking_bids)))) %>% 
   arrange(desc(n_bids_random))
 
-# Montando gráficos plotly ----------------------------------------------------
-source('comprasnet/bot_search/auction_plotly.R')
 
-df_plot <- df_plot_data %>%
+# Variavel com CNPJs de todos os fornecedores para usar como filtro
+df_plot_data <- df_plot_data %>%
+  group_by(id_item) %>% 
+  mutate(fornecedores = map_chr(.x = bids_random,
+                                .f = ~ distinct(.x, CNPJ_CPF) %>% 
+                                  unlist() %>% str_c(collapse = ' ; ')))
+
+# Montando gráficos plotly ----------------------------------------------------
+source('auction_plotly.R')
+
+df_plot <- df_plot_data %>% 
   mutate(panel = map_plot(.x = bids_random, .f = ~ auction_plotly(.x)))
 
 # Ajustando cognostics --------------------------------------------------------
@@ -213,6 +219,10 @@ df_plot$cnpj_firm1 <-
   cog(df_plot$cnpj_firm1,
       desc = 'CNPJ do fornecedor que mais registrou lances')
 
+df_plot$cnpj_firm2 <- 
+  cog(df_plot$cnpj_firm2,
+      desc = 'CNPJ do segundo fornecedor que mais registrou lances')
+
 df_plot$median_inc_random <- 
   cog(df_plot$median_inc_random,
       desc = str_c('Mediana do incremento entre lances de cobertura ',
@@ -225,8 +235,12 @@ df_plot$avg_inc_random <-
                    'registrados na fase aleatoria ',
                    '(incremento normalizado pelo primeiro lance)'))
 
+df_plot$fornecedores <- 
+  cog(df_plot$fornecedores,
+      desc = 'CNPJs de todos os participantes da fase aleatória')
+
 # Compilando e salvando -------------------------------------------------------
 trelliscope(df_plot, nrow = 1, ncol = 2,
-            name = 'Comprasnet', path = 'plots/trelliscope/complete',
-            desc = str_c('Leiloes eletronicos de compra de cafe realizados no',
-                         ' Comprasnet entre 01/03/2011 e 31/12/2017'))
+            name = 'Comprasnet', path = 'plots',
+            desc = str_c('Leilões eletrônicos de compra de café realizados no',
+                         ' Comprasnet entre 01/03/2011 e 31/12/2015'))
