@@ -1,0 +1,12 @@
+__loadDisplayList__eb7fe8b6([
+  {
+    "group": "common",
+    "name": "BEC",
+    "desc": "Leilões eletrônicos de compra de café realizados na BEC-SP entre 01/03/2011 e 31/12/2015",
+    "n": 1676,
+    "height": 500,
+    "width": 500,
+    "updated": "2020-02-13 20:29:46.355",
+    "keySig": "6886e27c1e040dae76190b5cd98088b1"
+  }
+])
