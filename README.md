@@ -1,7 +1,7 @@
 # Why this repository exists?
 During my Master's research on automated bidding in public procurement auctions, I found myself manually plotting data regarding dozens of coffee auctions in order to inspect bidding behaviour. This was time-consuming, error-prone and outright boring. And since my database contains thousands of auctions, this approach would simply not allow me to see the broader picture.
 
-Enters `trelliscopejs`. This phenomenal R package by [Ryan Hafen](https://github.com/hafen) allows you to easily build an interactive web page with a catalogue of plots, which can then be filtered, sorted and labeled in many useful ways. With `trelliscopejs`, instead of exploring my dataset to find potentially interesting auctions and _then_ plotting them, the plots for any set of auctions are just a few clicks/keystrokes away. Exploring auction metadata and visualizing bids are no longer two separate steps.
+Enter `trelliscopejs`. This phenomenal R package by [Ryan Hafen](https://github.com/hafen) allows you to easily build an interactive web page with a catalogue of plots, which can then be filtered, sorted and labeled in many useful ways. With `trelliscopejs`, instead of exploring my dataset to find potentially interesting auctions and _then_ plotting them, the plots for any set of auctions are just a few clicks/keystrokes away. Exploring auction metadata and visualizing bids are no longer two separate steps.
 
 # What is inside?
 In this repo, you can find a directory named `comprasnet/`, which contains the following:
